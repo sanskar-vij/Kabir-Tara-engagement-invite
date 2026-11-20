@@ -17,6 +17,7 @@ export function App() {
   const [itineraryOpen, setItineraryOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const wasPlayingBeforeHiddenRef = useRef(false);
 
   const [savedRsvp, setSavedRsvp] = useState<RsvpSubmission | null>(() => {
     try {
@@ -84,7 +85,46 @@ export function App() {
     audio.preload = 'auto';
     audioRef.current = audio;
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Tab was switched away, minimized, or backgrounded
+        if (audioRef.current && !audioRef.current.paused) {
+          wasPlayingBeforeHiddenRef.current = true;
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      } else {
+        // User returned to the tab
+        if (wasPlayingBeforeHiddenRef.current && audioRef.current && audioRef.current.paused) {
+          audioRef.current
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch((err) => {
+              console.log('Audio resume on tab focus prevented:', err);
+            });
+          wasPlayingBeforeHiddenRef.current = false;
+        }
+      }
+    };
+
+    const handlePageHide = () => {
+      // Tab or window is closing or navigating away
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('beforeunload', handlePageHide);
+
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('beforeunload', handlePageHide);
       audio.pause();
       audioRef.current = null;
     };
@@ -108,10 +148,14 @@ export function App() {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
+      wasPlayingBeforeHiddenRef.current = false;
     } else {
       audioRef.current
         .play()
-        .then(() => setIsPlaying(true))
+        .then(() => {
+          setIsPlaying(true);
+          wasPlayingBeforeHiddenRef.current = false;
+        })
         .catch((err) => console.log('Audio play error:', err));
     }
   };
