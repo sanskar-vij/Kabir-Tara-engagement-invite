@@ -11,6 +11,21 @@
     background-color: #040b1b;
     overflow-x: hidden;
   }
+
+  /* Anti-aliasing and hardware-accelerated smoothing for layered PNG assets */
+  img {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    image-rendering: auto;
+  }
+
+  /* Smooth edge clipping for rounded cards to prevent border bleed */
+  section[id^="panel-"] {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    transform: translateZ(0);
+  }
 }
 
 .font-script {
@@ -153,42 +168,34 @@
   }
 }
 
-/* Realistic Lamp Candlelight & Physics Animations */
+/* Realistic Lamp Candlelight & Physics Animations (GPU Composited) */
 @keyframes candleFlickerRealistic {
   0%, 100% {
-    filter: drop-shadow(0 0 7px rgba(255, 190, 80, 0.42)) brightness(1);
-    opacity: 0.94;
-  }
-  14% {
-    filter: drop-shadow(0 0 13px rgba(255, 215, 100, 0.72)) brightness(1.07);
-    opacity: 1;
-  }
-  30% {
-    filter: drop-shadow(0 0 8px rgba(255, 185, 75, 0.45)) brightness(0.98);
     opacity: 0.92;
+    transform: translate3d(-50%, -50%, 0) scale(1);
   }
-  48% {
-    filter: drop-shadow(0 0 16px rgba(255, 225, 115, 0.82)) brightness(1.1);
+  24% {
     opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1.08);
   }
-  65% {
-    filter: drop-shadow(0 0 10px rgba(255, 195, 85, 0.52)) brightness(1.02);
-    opacity: 0.95;
+  50% {
+    opacity: 0.88;
+    transform: translate3d(-50%, -50%, 0) scale(0.96);
   }
-  84% {
-    filter: drop-shadow(0 0 14px rgba(255, 210, 95, 0.68)) brightness(1.05);
-    opacity: 0.98;
+  75% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1.05);
   }
 }
 
 @keyframes lampGlowAura {
   0%, 100% {
     opacity: 0.45;
-    transform: scale(0.93);
+    transform: translate3d(-50%, -50%, 0) scale(0.94);
   }
   50% {
-    opacity: 0.88;
-    transform: scale(1.09);
+    opacity: 0.82;
+    transform: translate3d(-50%, -50%, 0) scale(1.06);
   }
 }
 
@@ -216,18 +223,76 @@
   }
 }
 
+/* Independent Chandelier Animations (Different speeds, curves, and counter-phases) */
+@keyframes chandelierSwayLeft {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  28% {
+    transform: rotate(1.4deg);
+  }
+  72% {
+    transform: rotate(-1.1deg);
+  }
+}
+
+@keyframes chandelierSwayCenter {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  34% {
+    transform: rotate(-0.75deg);
+  }
+  68% {
+    transform: rotate(0.65deg);
+  }
+}
+
+@keyframes chandelierSwayRight {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-1.5deg);
+  }
+  75% {
+    transform: rotate(1.2deg);
+  }
+}
+
+.animate-chandelier-left {
+  animation: chandelierSwayLeft 5.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  animation-delay: -1.8s;
+  transform-origin: 19.0% 0%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-chandelier-center {
+  animation: chandelierSwayCenter 8.6s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+  animation-delay: 0s;
+  transform-origin: 50.0% 0%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-chandelier-right {
+  animation: chandelierSwayRight 7.1s cubic-bezier(0.42, 0.08, 0.58, 0.92) infinite;
+  animation-delay: -3.7s;
+  transform-origin: 81.0% 0%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
 @keyframes chandelierGrandSway {
   0%, 100% {
     transform: rotate(0deg);
-    filter: drop-shadow(0 6px 16px rgba(250, 210, 120, 0.3)) brightness(1);
   }
   25% {
     transform: rotate(0.8deg);
-    filter: drop-shadow(0 8px 26px rgba(255, 230, 150, 0.52)) brightness(1.07);
   }
   75% {
     transform: rotate(-0.8deg);
-    filter: drop-shadow(0 8px 26px rgba(255, 230, 150, 0.52)) brightness(1.07);
   }
 }
 

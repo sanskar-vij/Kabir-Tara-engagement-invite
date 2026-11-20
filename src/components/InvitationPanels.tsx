@@ -9,68 +9,71 @@ import {
   FiligreeDivider,
   PinRoyalIcon,
   RoyalCardBorder,
+  RoyalLogo,
   RoyalWaxSeal,
   RsvpCartouche,
   StarburstDivider,
   TwinklingStars,
 } from './RoyalOrnaments';
+import { WEDDING_CONFIG } from '../config/weddingConfig';
 
-interface PanelProps {
+export interface PanelProps {
   onNextSection?: () => void;
   onAddCalendar?: () => void;
   onOpenVenue?: () => void;
   onOpenRsvp?: () => void;
   onOpenItinerary?: () => void;
+  couple?: {
+    groom?: string;
+    bride?: string;
+    initials?: string;
+  };
 }
 
-// 7 Lamp Pairs: Glow centered IN THE LAMP with a little light spilling OUT
+// 5 Lamp Pairs: Glow centered IN THE LAMP with a little light spilling OUT
 const WALKWAY_LAMPS = [
   {
     step: 1,
-    left: { bottom: '10.2%', left: '13.8%', flameW: 18, flameH: 24, haloSize: 42 },
-    right: { bottom: '9.4%', right: '13.8%', flameW: 18, flameH: 24, haloSize: 42 },
+    left: { bottom: '16.9%', left: '16.4%', flameW: 16, flameH: 22, haloSize: 38 },
+    right: { bottom: '16.9%', right: '15.6%', flameW: 16, flameH: 22, haloSize: 38 },
   },
   {
     step: 2,
-    left: { bottom: '13.5%', left: '17.2%', flameW: 15, flameH: 20, haloSize: 34 },
-    right: { bottom: '12.6%', right: '17.2%', flameW: 15, flameH: 20, haloSize: 34 },
+    left: { bottom: '20.2%', left: '19.0%', flameW: 14, flameH: 19, haloSize: 32 },
+    right: { bottom: '20.0%', right: '18.5%', flameW: 14, flameH: 19, haloSize: 32 },
   },
   {
     step: 3,
-    left: { bottom: '16.8%', left: '20.6%', flameW: 13, flameH: 17, haloSize: 28 },
-    right: { bottom: '15.9%', right: '20.6%', flameW: 13, flameH: 17, haloSize: 28 },
+    left: { bottom: '24.9%', left: '27.9%', flameW: 12, flameH: 16, haloSize: 26 },
+    right: { bottom: '25.2%', right: '25.5%', flameW: 12, flameH: 16, haloSize: 26 },
   },
   {
     step: 4,
-    left: { bottom: '20.0%', left: '24.2%', flameW: 11, flameH: 14, haloSize: 24 },
-    right: { bottom: '19.2%', right: '24.2%', flameW: 11, flameH: 14, haloSize: 24 },
+    left: { bottom: '27.8%', left: '35.3%', flameW: 10, flameH: 13, haloSize: 22 },
+    right: { bottom: '27.4%', right: '31.3%', flameW: 10, flameH: 13, haloSize: 22 },
   },
   {
     step: 5,
-    left: { bottom: '23.0%', left: '27.6%', flameW: 9, flameH: 12, haloSize: 20 },
-    right: { bottom: '22.2%', right: '27.6%', flameW: 9, flameH: 12, haloSize: 20 },
-  },
-  {
-    step: 6,
-    left: { bottom: '26.0%', left: '31.0%', flameW: 8, flameH: 10, haloSize: 17 },
-    right: { bottom: '25.2%', right: '31.0%', flameW: 8, flameH: 10, haloSize: 17 },
-  },
-  {
-    step: 7,
-    left: { bottom: '28.8%', left: '34.5%', flameW: 7, flameH: 9, haloSize: 15 },
-    right: { bottom: '28.0%', right: '34.5%', flameW: 7, flameH: 9, haloSize: 15 },
+    left: { bottom: '29.8%', left: '41.2%', flameW: 8, flameH: 11, haloSize: 18 },
+    right: { bottom: '29.8%', right: '39.5%', flameW: 8, flameH: 11, haloSize: 18 },
   },
 ];
 
-export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
+export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
+  const groom = couple?.groom ?? WEDDING_CONFIG.groom;
+  const bride = couple?.bride ?? WEDDING_CONFIG.bride;
+  const initials = couple?.initials ?? WEDDING_CONFIG.initials;
+
   // litStep: 0 = completely unlit (no light until user clicks), 1..7 = sequential lamp pairs, 8 = full palace illumination
   const [litStep, setLitStep] = useState<number>(0);
-  const [isLighting, setIsLighting] = useState<boolean>(false);
+  // Only play the sequential lighting animation ONCE until the page is reloaded
+  const [hasTriggered, setHasTriggered] = useState<boolean>(false);
 
   const handleLightSequentialLamps = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (isLighting) return;
-    setIsLighting(true);
+    // Prevent any re-triggering once clicked until page is reloaded
+    if (hasTriggered) return;
+    setHasTriggered(true);
 
     if (navigator.vibrate) {
       navigator.vibrate([35, 45, 35]);
@@ -79,12 +82,11 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
     // Step 1: Immediate foreground pair lights up
     setLitStep(1);
 
-    // Cascading sequential lighting all the way to the palace entrance
-    for (let s = 2; s <= 8; s++) {
+    // Cascading sequential lighting all the way to the palace entrance (runs strictly once)
+    for (let s = 2; s <= 6; s++) {
       window.setTimeout(() => {
         setLitStep(s);
-        if (s === 8) setIsLighting(false);
-      }, (s - 1) * 140);
+      }, (s - 1) * 160);
     }
   };
 
@@ -92,7 +94,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
     <ParallaxCard>
       <section
         id="panel-cover"
-        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)]"
+        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)] sm:shadow-[0_0_0_1px_rgba(217,177,102,0.35),0_25px_80px_rgba(0,0,0,0.92),0_0_40px_rgba(217,177,102,0.12)]"
         aria-label="Kabir and Tara Engagement Ceremony Cover"
       >
         {/* Layer 1: Night Sky & Lake Reflection Background */}
@@ -108,39 +110,39 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
           src="/assets/5.png"
           alt="Illuminated royal palace"
           className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-all duration-1000 ${
-            litStep >= 8
-              ? 'brightness-120 drop-shadow-[0_0_28px_rgba(255,225,140,0.55)]'
-              : litStep >= 4
-              ? 'brightness-110 drop-shadow-[0_0_16px_rgba(255,215,120,0.3)]'
+            litStep >= 6
+              ? 'brightness-120'
+              : litStep >= 3
+              ? 'brightness-110'
               : 'animate-palace-aura'
           }`}
         />
 
-        {/* Layer 3: Left & Right Palm Trees swaying organically in night breeze */}
-        <div
-          className="absolute inset-0 pointer-events-none overflow-hidden"
-          style={{ clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)' }}
-        >
-          <img
-            src="/assets/2.png"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover object-center animate-tree-sway-left"
-          />
-        </div>
-        <div
-          className="absolute inset-0 pointer-events-none overflow-hidden"
-          style={{ clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)' }}
-        >
-          <img
-            src="/assets/2.png"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover object-center animate-tree-sway-right"
-          />
-        </div>
+        {/* Layer 3a: Left Palm Tree (Static, crystal clean cutout) */}
+        <img
+          src="/assets/tree-left.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
 
-        {/* Layer 4: Carved Golden Mughal Archway & Reflective Marble Walkway */}
+        {/* Layer 3b: Right Palm Tree (Static, crystal clean cutout) */}
+        <img
+          src="/assets/tree-right.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
+
+        {/* Layer 4: Walkway Blooming Shrubs & Rose Hedges */}
+        <img
+          src="/assets/walkway-shrubs.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
+
+        {/* Layer 5: Carved Golden Mughal Archway & Reflective Marble Walkway */}
         <img
           src="/assets/3.png"
           alt="Carved golden Mughal archway and marble walkway"
@@ -223,8 +225,8 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
           );
         })}
 
-        {/* Gentle Palace Horizon Warm Aura (Step 8 Finale) */}
-        {litStep >= 8 && (
+        {/* Gentle Palace Horizon Warm Aura (Step 6 Finale) */}
+        {litStep >= 6 && (
           <div
             className="absolute bottom-[28%] left-1/2 -translate-x-1/2 w-44 h-24 rounded-full pointer-events-none animate-pulse"
             style={{
@@ -239,21 +241,23 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
         <img
           src="/assets/1.png"
           alt="Lanterns along the palace walkway"
-          onClick={handleLightSequentialLamps}
-          className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-auto cursor-pointer transition-all duration-700 ${
+          onClick={hasTriggered ? undefined : handleLightSequentialLamps}
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ${
+            hasTriggered ? 'pointer-events-none' : 'pointer-events-auto cursor-pointer'
+          } ${
             litStep >= 1
               ? 'brightness-115 contrast-105 opacity-100'
               : 'brightness-[0.55] saturate-[0.35] opacity-80'
           }`}
-          title="Tap to illuminate the royal walkway"
+          title={hasTriggered ? undefined : 'Tap to illuminate the royal walkway'}
         />
 
         {/* Pulsing Touch Target Rings on First Lamps (Visible ONLY until user clicks) */}
-        {litStep === 0 && (
+        {litStep === 0 && !hasTriggered && (
           <>
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[7%] left-[10%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[14%] left-[13.5%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
               <span className="w-7 h-7 rounded-full border-2 border-[#F4D58D]/80 animate-ping pointer-events-none" />
@@ -262,7 +266,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
 
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[6.5%] right-[10%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[14%] right-[13%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
               <span className="w-7 h-7 rounded-full border-2 border-[#F4D58D]/80 animate-ping pointer-events-none" />
@@ -295,22 +299,26 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
         {/* Unified Luxury Gold Card Border */}
         <RoyalCardBorder />
 
-        {/* Clean Text & Crown Overlay inside the Arch */}
-        <div className="relative z-10 flex flex-col items-center text-center pt-[15.5%] px-[12%]">
-          <CrownIcon className="w-8 h-6 sm:w-9 sm:h-7 mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] hover:scale-110 transition-transform cursor-pointer" />
+        {/* Clean Text & Royal Logo Overlay inside the Arch */}
+        <div className="relative z-10 flex flex-col items-center text-center pt-[11%] px-[8%]">
+          <RoyalLogo
+            className="w-20 h-20 sm:w-24 sm:h-24 mb-1 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+            initials={initials}
+            groom={groom}
+            bride={bride}
+          />
 
-          <FiligreeDivider width="w-44 sm:w-48" className="mb-3" />
+          <FiligreeDivider width="w-44 sm:w-48" className="mb-2" />
 
           {/* SINGLE LINE COUPLE NAME WITH 24K GOLD GLEAM ANIMATION */}
-          <h1 className="font-script text-[38px] min-[360px]:text-[42px] min-[400px]:text-[48px] leading-[1.08] gold-gleam-text tracking-[0.01em] whitespace-nowrap py-1 select-none hover:scale-[1.02] active:scale-[0.98] transition-transform cursor-pointer" title="Kabir & Tara">
-            Kabir &amp; Tara
+          <h1
+            className="font-script text-[40px] min-[360px]:text-[44px] min-[400px]:text-[50px] leading-[1.08] gold-gleam-text tracking-[0.01em] whitespace-nowrap py-0.5 select-none hover:scale-[1.02] active:scale-[0.98] transition-transform cursor-pointer"
+            title={`${groom} & ${bride}`}
+          >
+            {groom} &amp; {bride}
           </h1>
 
-          <p className="font-cinzel text-[12px] sm:text-[13.5px] tracking-[0.2em] ivory-text-shadow uppercase mt-3 font-medium">
-            ENGAGEMENT CEREMONY
-          </p>
-
-          <FiligreeDivider width="w-44 sm:w-48" className="mt-2.5" />
+          <FiligreeDivider width="w-44 sm:w-48" className="mt-2" />
         </div>
 
         {/* Gentle Mobile Scroll Cue */}
@@ -333,13 +341,17 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection }) => {
 export const DetailsPanel: React.FC<PanelProps> = ({
   onAddCalendar,
   onOpenVenue,
+  couple,
 }) => {
+  const groom = couple?.groom ?? WEDDING_CONFIG.groom;
+  const bride = couple?.bride ?? WEDDING_CONFIG.bride;
+
   return (
     <ParallaxCard>
       <section
         id="panel-details"
-        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)]"
-        aria-label="Engagement Ceremony Details — 20 November 2027 at The Palm Pavilion Goa"
+        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)] sm:shadow-[0_0_0_1px_rgba(217,177,102,0.35),0_25px_80px_rgba(0,0,0,0.92),0_0_40px_rgba(217,177,102,0.12)]"
+        aria-label={`${groom} & ${bride} ${WEDDING_CONFIG.eventTitle} Details — 20 November 2027 at The Palm Pavilion Goa`}
       >
         {/* Layer 1: Royal Pavilion Courtyard with Floral Urns & Twilight Horizon */}
         <img
@@ -357,11 +369,26 @@ export const DetailsPanel: React.FC<PanelProps> = ({
           }}
         />
 
-        {/* Layer 2: Triple Crystal Chandeliers with pendulum sway and crystal sparkle */}
+        {/* Layer 2: Triple Crystal Chandeliers (Each animating independently with distinct rhythm & phase) */}
         <img
-          src="/assets/7.png"
+          src="/assets/chandelier-left.png"
+          alt=""
+          aria-hidden="true"
+          style={{ transformOrigin: '19.0% 0%' }}
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-left"
+        />
+        <img
+          src="/assets/chandelier-center.png"
           alt="Crystal chandeliers"
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-sway"
+          style={{ transformOrigin: '50% 0%' }}
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-center"
+        />
+        <img
+          src="/assets/chandelier-right.png"
+          alt=""
+          aria-hidden="true"
+          style={{ transformOrigin: '81.0% 0%' }}
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-right"
         />
 
         {/* Seamless central dark-navy glow behind text */}
@@ -387,8 +414,11 @@ export const DetailsPanel: React.FC<PanelProps> = ({
           </p>
 
           {/* SINGLE LINE COUPLE NAME WITH 24K GOLD GLEAM ANIMATION */}
-          <h2 className="font-script text-[32px] min-[360px]:text-[36px] min-[400px]:text-[41px] leading-[1.08] gold-gleam-text mt-1 whitespace-nowrap py-0.5 select-none hover:scale-[1.02] active:scale-[0.98] transition-transform cursor-pointer" title="Kabir & Tara">
-            Kabir &amp; Tara
+          <h2
+            className="font-script text-[32px] min-[360px]:text-[36px] min-[400px]:text-[41px] leading-[1.08] gold-gleam-text mt-1 whitespace-nowrap py-0.5 select-none hover:scale-[1.02] active:scale-[0.98] transition-transform cursor-pointer"
+            title={`${groom} & ${bride}`}
+          >
+            {groom} &amp; {bride}
           </h2>
 
           {/* Interactive Event Date / Time / Venue */}
@@ -439,12 +469,15 @@ export const DetailsPanel: React.FC<PanelProps> = ({
   );
 };
 
-export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp }) => {
+export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp, couple }) => {
+  const groom = couple?.groom ?? WEDDING_CONFIG.groom;
+  const bride = couple?.bride ?? WEDDING_CONFIG.bride;
+  const initials = couple?.initials ?? WEDDING_CONFIG.initials;
   return (
     <ParallaxCard>
       <section
         id="panel-rsvp"
-        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)]"
+        className="relative w-full aspect-[9/16] overflow-hidden rounded-2xl bg-[#06122B] select-none border border-[#D9B166]/65 shadow-[0_0_0_1px_rgba(217,177,102,0.25),0_20px_60px_rgba(0,0,0,0.85)] sm:shadow-[0_0_0_1px_rgba(217,177,102,0.35),0_25px_80px_rgba(0,0,0,0.92),0_0_40px_rgba(217,177,102,0.12)]"
         aria-label="Join Us and RSVP by 15 November 2027"
       >
         {/* Layer 1: Waterfront Palace & Starry Night Sky */}
@@ -500,7 +533,7 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp }) => {
 
         {/* Ambient warm marble terrace pool of light for standing floor lantern */}
         <div
-          className="absolute bottom-[8%] right-[8%] w-24 h-16 rounded-full pointer-events-none animate-lamp-halo"
+          className="absolute bottom-[13%] right-[7%] w-24 h-16 rounded-full pointer-events-none animate-lamp-halo"
           style={{
             background:
               'radial-gradient(ellipse at center, rgba(255, 205, 90, 0.48) 0%, rgba(255, 175, 50, 0.16) 55%, transparent 75%)',
@@ -508,12 +541,22 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp }) => {
           }}
         />
 
-        {/* Layer 5: Standing Filigree Floor Lantern Bottom-Right with Realistic Candle Flicker */}
+        {/* Layer 5: Standing Filigree Floor Lantern Bottom-Right */}
         <img
           src="/assets/11.png"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-candle-flame"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
+
+        {/* Realistic candle flame core inside standing floor lantern */}
+        <div
+          className="absolute bottom-[18.2%] right-[12.7%] -translate-x-1/2 -translate-y-1/2 w-3 h-4 rounded-full pointer-events-none animate-candle-flame"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 60%, #FFFFFF 0%, #FFF2A8 28%, #F59E0B 72%, transparent 100%)',
+            boxShadow: '0 0 10px rgba(255, 225, 110, 0.9), 0 0 18px rgba(245, 160, 40, 0.6)',
+          }}
         />
 
         {/* Subtle navy glow for upper arch text legibility */}
@@ -552,15 +595,25 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp }) => {
 
           {/* SINGLE LINE COUPLE NAME WITH 24K GOLD GLEAM */}
           <p className="font-script text-[35px] min-[360px]:text-[38px] sm:text-[42px] leading-[1.08] gold-gleam-text mt-0.5 whitespace-nowrap">
-            Kabir &amp; Tara
+            {groom} &amp; {bride}
           </p>
 
-          {/* Interactive Royal Wax Seal of Kabir & Tara with Crystal Clear High-Contrast Label */}
-          <div className="mt-2.5 flex flex-col items-center">
-            <RoyalWaxSeal onClick={() => onOpenRsvp?.()} />
-            <span className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-[#FFF5DC] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] mt-1.5 px-3 py-0.5 rounded-full bg-[#040C20]/85 border border-[#D9B166]/65 shadow-md">
-              ✨ Tap Seal to RSVP ✨
-            </span>
+          {/* Interactive Royal Crest Logo with Dynamic Initials and Tap to RSVP action */}
+          <div className="mt-1 flex flex-col items-center">
+            <RoyalLogo
+              className="w-16 h-16 sm:w-20 sm:h-20 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+              initials={initials}
+              groom={groom}
+              bride={bride}
+              onClick={() => onOpenRsvp?.()}
+            />
+            <button
+              type="button"
+              onClick={() => onOpenRsvp?.()}
+              className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-semibold text-[#FFF5DC] drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] mt-1 px-3 py-0.5 rounded-full bg-[#040C20]/85 border border-[#D9B166]/65 shadow-md hover:border-[#F4D58D] hover:bg-[#061433] transition-all cursor-pointer"
+            >
+              ✨ Tap Crest to RSVP ✨
+            </button>
           </div>
         </div>
 

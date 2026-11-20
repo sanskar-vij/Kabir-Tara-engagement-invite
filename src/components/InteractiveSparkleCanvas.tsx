@@ -41,17 +41,18 @@ export const InteractiveSparkleCanvas: React.FC = () => {
     const spawnSparkleBurst = (x: number, y: number, count = 10) => {
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 1.0 + Math.random() * 3.0;
+        const speed = 0.8 + Math.random() * 2.2;
         const isEmber = Math.random() < 0.35;
 
         particlesRef.current.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.6,
-          size: isEmber ? 2.5 + Math.random() * 4.5 : 3.5 + Math.random() * 5,
+          vy: Math.sin(angle) * speed - 0.4,
+          // Refined micro-sparkles: small, delicate and elegant
+          size: isEmber ? 1.0 + Math.random() * 1.5 : 1.2 + Math.random() * 1.8,
           alpha: 1,
-          decay: 0.022 + Math.random() * 0.02,
+          decay: 0.025 + Math.random() * 0.02,
           rotation: Math.random() * Math.PI * 2,
           rotSpeed: (Math.random() - 0.5) * 0.1,
           type: isEmber ? 'ember' : 'sparkle',
@@ -60,16 +61,16 @@ export const InteractiveSparkleCanvas: React.FC = () => {
       }
     };
 
-    // Ambient floating golden stardust
+    // Ambient floating golden stardust (small & delicate)
     const spawnAmbientStardust = () => {
       if (particlesRef.current.length > 35) return;
       particlesRef.current.push({
         x: Math.random() * width,
         y: -10,
-        vx: -0.5 + Math.random() * 1.0,
-        vy: 0.7 + Math.random() * 1.2,
-        size: 2.5 + Math.random() * 4.5,
-        alpha: 0.8,
+        vx: -0.4 + Math.random() * 0.8,
+        vy: 0.5 + Math.random() * 1.0,
+        size: 0.8 + Math.random() * 1.5,
+        alpha: 0.75,
         decay: 0.0035,
         rotation: Math.random() * Math.PI * 2,
         rotSpeed: (Math.random() - 0.5) * 0.04,
@@ -122,10 +123,8 @@ export const InteractiveSparkleCanvas: React.FC = () => {
         ctx.globalAlpha = Math.max(0, p.alpha);
 
         if (p.type === 'sparkle') {
-          // Radiant 4-pointed diamond star
+          // Hardware-accelerated crisp 4-pointed diamond star with glowing core
           ctx.fillStyle = p.color;
-          ctx.shadowColor = '#F4D58D';
-          ctx.shadowBlur = 6;
           ctx.beginPath();
           const s = p.size;
           ctx.moveTo(0, -s);
@@ -133,6 +132,12 @@ export const InteractiveSparkleCanvas: React.FC = () => {
           ctx.quadraticCurveTo(0, 0, 0, s);
           ctx.quadraticCurveTo(0, 0, -s, 0);
           ctx.quadraticCurveTo(0, 0, 0, -s);
+          ctx.fill();
+
+          // Brilliant micro white center point
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 0.35, 0, Math.PI * 2);
           ctx.fill();
         } else {
           // Soft glowing golden ember orb

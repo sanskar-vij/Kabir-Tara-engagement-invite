@@ -34,6 +34,276 @@ export const CrownIcon: React.FC<{ className?: string }> = ({ className = 'w-8 h
   </svg>
 );
 
+export interface RoyalLogoProps {
+  className?: string;
+  initials?: string;
+  groom?: string;
+  bride?: string;
+  onClick?: () => void;
+}
+
+export const RoyalLogo: React.FC<RoyalLogoProps> = ({
+  className = 'w-20 h-20 sm:w-24 sm:h-24',
+  initials,
+  groom = 'Kabir',
+  bride = 'Tara',
+  onClick,
+}) => {
+  // Extract clean initials
+  const groomInitial = groom.trim().charAt(0).toUpperCase() || 'K';
+  const brideInitial = bride.trim().charAt(0).toUpperCase() || 'T';
+
+  // Custom monogram check (e.g. if custom initials string passed)
+  const customMonogram = initials?.trim();
+  const isDefaultPair =
+    !customMonogram ||
+    customMonogram === `${groomInitial} & ${brideInitial}` ||
+    customMonogram === `${groomInitial}&${brideInitial}`;
+
+  return (
+    <svg
+      viewBox="0 0 140 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
+      className={`${className} filter drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer select-none`}
+      aria-label={`${groom} & ${bride} Royal Wedding Crest`}
+    >
+      <defs>
+        {/* 24K Liquid Gold Gradient - Highlights */}
+        <linearGradient id="crestGoldBright" x1="20" y1="10" x2="120" y2="130" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFDF0" />
+          <stop offset="20%" stopColor="#FDE68A" />
+          <stop offset="45%" stopColor="#D4A042" />
+          <stop offset="70%" stopColor="#FDF0BD" />
+          <stop offset="100%" stopColor="#A46E19" />
+        </linearGradient>
+
+        {/* 24K Deep Burnished Gold Gradient */}
+        <linearGradient id="crestGoldDeep" x1="120" y1="130" x2="20" y2="10" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#784C0F" />
+          <stop offset="30%" stopColor="#B8822B" />
+          <stop offset="65%" stopColor="#F9E29D" />
+          <stop offset="100%" stopColor="#8A5814" />
+        </linearGradient>
+
+        {/* Midnight Royal Lapis Lacquer Core */}
+        <radialGradient id="crestLacquer" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#142B5C" stopOpacity="0.95" />
+          <stop offset="55%" stopColor="#081432" stopOpacity="0.92" />
+          <stop offset="100%" stopColor="#03081A" stopOpacity="0.88" />
+        </radialGradient>
+
+        {/* Inner Starlight Radiance */}
+        <radialGradient id="crestGlow" cx="50%" cy="50%" r="48%">
+          <stop offset="0%" stopColor="#FDE68A" stopOpacity="0.32" />
+          <stop offset="50%" stopColor="#F59E0B" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* ======================================================== */}
+      {/* 1. IMPERIAL CROWN APEX (Top: y = 5 to 33)                 */}
+      {/* ======================================================== */}
+      {/* Radiant Celestial Star on Pinnacle */}
+      <path
+        d="M70 5L71.5 10.5L77 12L71.5 13.5L70 19L68.5 13.5L63 12L68.5 10.5L70 5Z"
+        fill="url(#crestGoldBright)"
+      />
+      <circle cx="70" cy="12" r="1.3" fill="#FFFFFF" />
+
+      {/* Grand Imperial 5-Point Crown */}
+      <path
+        d="M48 29L52 19L61 23L70 13L79 23L88 19L92 29H48Z"
+        fill="url(#crestGoldBright)"
+        stroke="url(#crestGoldDeep)"
+        strokeWidth="0.8"
+        strokeLinejoin="round"
+      />
+
+      {/* Crown Pearl Finials */}
+      <circle cx="52" cy="18" r="1.8" fill="#FFFCE8" stroke="url(#crestGoldDeep)" strokeWidth="0.5" />
+      <circle cx="61" cy="22" r="1.5" fill="#FFFCE8" stroke="url(#crestGoldDeep)" strokeWidth="0.5" />
+      <circle cx="70" cy="12" r="2.2" fill="#FFFCE8" stroke="url(#crestGoldDeep)" strokeWidth="0.6" />
+      <circle cx="79" cy="22" r="1.5" fill="#FFFCE8" stroke="url(#crestGoldDeep)" strokeWidth="0.5" />
+      <circle cx="88" cy="18" r="1.8" fill="#FFFCE8" stroke="url(#crestGoldDeep)" strokeWidth="0.5" />
+
+      {/* Crown Headband with embedded gems */}
+      <rect x="47" y="29.5" width="46" height="3.5" rx="1.5" fill="url(#crestGoldDeep)" stroke="url(#crestGoldBright)" strokeWidth="0.6" />
+      <circle cx="53" cy="31.2" r="1" fill="#FFFDF0" />
+      <circle cx="61.5" cy="31.2" r="1" fill="#F87171" />
+      <circle cx="70" cy="31.2" r="1.3" fill="#FFFDF0" />
+      <circle cx="78.5" cy="31.2" r="1" fill="#34D399" />
+      <circle cx="87" cy="31.2" r="1" fill="#FFFDF0" />
+
+      {/* ======================================================== */}
+      {/* 2. ORNATE HERALDIC LAUREL SCROLLS & FLOURISH WINGS        */}
+      {/* ======================================================== */}
+      {/* Left Wing & Laurel Branch */}
+      <g stroke="url(#crestGoldBright)" fill="none" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M47 34C32 35 20 46 17 62C14 77 22 92 36 100C41 103 47 106 53 107" />
+        <path d="M22 55C14 58 10 68 12 77C14 85 22 91 30 94" strokeWidth="0.75" opacity="0.8" />
+        {/* Laurel Leaves along left curve */}
+        <path d="M26 44C23 40 25 35 30 36C31 41 29 44 26 44Z" fill="url(#crestGoldBright)" />
+        <path d="M19 55C15 52 16 46 22 47C23 52 21 55 19 55Z" fill="url(#crestGoldBright)" />
+        <path d="M15 68C10 66 11 60 17 60C18 65 17 68 15 68Z" fill="url(#crestGoldBright)" />
+        <path d="M16 82C12 82 11 76 17 74C19 79 18 82 16 82Z" fill="url(#crestGoldBright)" />
+        <path d="M23 94C19 96 17 90 22 87C25 91 24 94 23 94Z" fill="url(#crestGoldBright)" />
+        <path d="M34 103C30 106 27 101 32 97C35 100 35 103 34 103Z" fill="url(#crestGoldBright)" />
+      </g>
+
+      {/* Right Wing & Laurel Branch */}
+      <g stroke="url(#crestGoldBright)" fill="none" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M93 34C108 35 120 46 123 62C126 77 118 92 104 100C99 103 93 106 87 107" />
+        <path d="M118 55C126 58 130 68 128 77C126 85 118 91 110 94" strokeWidth="0.75" opacity="0.8" />
+        {/* Laurel Leaves along right curve */}
+        <path d="M114 44C117 40 115 35 110 36C109 41 111 44 114 44Z" fill="url(#crestGoldBright)" />
+        <path d="M121 55C125 52 124 46 118 47C117 52 119 55 121 55Z" fill="url(#crestGoldBright)" />
+        <path d="M125 68C130 66 129 60 123 60C122 65 123 68 125 68Z" fill="url(#crestGoldBright)" />
+        <path d="M124 82C128 82 129 76 123 74C121 79 122 82 124 82Z" fill="url(#crestGoldBright)" />
+        <path d="M117 94C121 96 123 90 118 87C115 91 116 94 117 94Z" fill="url(#crestGoldBright)" />
+        <path d="M106 103C110 106 113 101 108 97C105 100 105 103 106 103Z" fill="url(#crestGoldBright)" />
+      </g>
+
+      {/* ======================================================== */}
+      {/* 3. CENTRAL ROYAL MEDALLION / JHAROKHA CARTOUCHE           */}
+      {/* ======================================================== */}
+      {/* Outer 12-Foil Scalloped Halo */}
+      <circle cx="70" cy="71" r="39" stroke="url(#crestGoldBright)" strokeWidth="0.7" strokeDasharray="3 2" opacity="0.6" />
+
+      {/* Main Beveled 24K Gold Ring */}
+      <circle cx="70" cy="71" r="36" fill="url(#crestGoldDeep)" stroke="url(#crestGoldBright)" strokeWidth="1.6" />
+      {/* Inner Midnight Lacquer Depth */}
+      <circle cx="70" cy="71" r="32.5" fill="url(#crestLacquer)" stroke="url(#crestGoldBright)" strokeWidth="0.9" />
+      {/* Radiant Starlight Fill behind initials */}
+      <circle cx="70" cy="71" r="32" fill="url(#crestGlow)" />
+      {/* Fine Pearl Beading Ring inside medallion */}
+      <circle cx="70" cy="71" r="29.5" stroke="#FFF0C2" strokeWidth="0.8" strokeDasharray="1.8 1.8" fill="none" opacity="0.75" />
+
+      {/* Cardinal Star Accents on Ring (Top, Bottom, Left, Right) */}
+      <circle cx="70" cy="38.5" r="1.3" fill="#FFFCE6" />
+      <circle cx="70" cy="103.5" r="1.3" fill="#FFFCE6" />
+      <circle cx="37.5" cy="71" r="1.3" fill="#FFFCE6" />
+      <circle cx="102.5" cy="71" r="1.3" fill="#FFFCE6" />
+
+      {/* Micro Filigree Flourish above Initials */}
+      <path
+        d="M58 54C62 51 66 53 70 49C74 53 78 51 82 54"
+        stroke="url(#crestGoldBright)"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <circle cx="70" cy="51" r="1" fill="#FFF9E0" />
+
+      {/* ======================================================== */}
+      {/* 4. BESPOKE ROYAL MONOGRAM CENTERPIECE                     */}
+      {/* ======================================================== */}
+      {isDefaultPair ? (
+        <g>
+          {/* Groom Initial (Left) in Imperial Serif */}
+          <text
+            x="54"
+            y="76"
+            textAnchor="middle"
+            fontFamily="'Cinzel', 'Cormorant Garamond', Georgia, serif"
+            fontSize="23"
+            fontWeight="700"
+            fill="url(#crestGoldBright)"
+            style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.95))' }}
+          >
+            {groomInitial}
+          </text>
+
+          {/* Central 24K Gold Jewel Connector (Ampersand & Diamond) */}
+          <text
+            x="70"
+            y="74"
+            textAnchor="middle"
+            fontFamily="'Alex Brush', 'Great Vibes', cursive"
+            fontSize="21"
+            fontWeight="bold"
+            fill="#FFF5D6"
+            style={{ filter: 'drop-shadow(0 0 5px rgba(245,158,11,0.85))' }}
+          >
+            &amp;
+          </text>
+
+          {/* Bride Initial (Right) in Imperial Serif */}
+          <text
+            x="86"
+            y="76"
+            textAnchor="middle"
+            fontFamily="'Cinzel', 'Cormorant Garamond', Georgia, serif"
+            fontSize="23"
+            fontWeight="700"
+            fill="url(#crestGoldBright)"
+            style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.95))' }}
+          >
+            {brideInitial}
+          </text>
+        </g>
+      ) : (
+        <text
+          x="70"
+          y="76"
+          textAnchor="middle"
+          fontFamily="'Cinzel', 'Cormorant Garamond', Georgia, serif"
+          fontSize={customMonogram.length > 5 ? 16 : customMonogram.length > 3 ? 19 : 22}
+          fontWeight="700"
+          fill="url(#crestGoldBright)"
+          letterSpacing="0.06em"
+          style={{ filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.95))' }}
+        >
+          {customMonogram}
+        </text>
+      )}
+
+      {/* Micro Filigree Flourish below Initials */}
+      <path
+        d="M58 84C62 87 66 85 70 89C74 85 78 87 82 84"
+        stroke="url(#crestGoldBright)"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <circle cx="70" cy="87" r="1" fill="#FFF9E0" />
+
+      {/* ======================================================== */}
+      {/* 5. BASE PEDESTAL & JEWELED PEARL DROPS                    */}
+      {/* ======================================================== */}
+      {/* Central Royal Lotus Palmette at bottom */}
+      <path
+        d="M70 106L73 113L79 114L74 118L76 124L70 120L64 124L66 118L61 114L67 113L70 106Z"
+        fill="url(#crestGoldBright)"
+        stroke="url(#crestGoldDeep)"
+        strokeWidth="0.6"
+      />
+      {/* Symmetrical scroll base accents */}
+      <path
+        d="M54 110C58 114 64 116 70 116C76 116 82 114 86 110"
+        stroke="url(#crestGoldBright)"
+        strokeWidth="1"
+        strokeLinecap="round"
+        fill="none"
+      />
+      {/* Hanging Pearl Drops */}
+      <circle cx="58" cy="118" r="1.5" fill="#FFFBE6" stroke="url(#crestGoldDeep)" strokeWidth="0.4" />
+      <circle cx="70" cy="128" r="2.2" fill="#FFFBE6" stroke="url(#crestGoldDeep)" strokeWidth="0.5" />
+      <circle cx="82" cy="118" r="1.5" fill="#FFFBE6" stroke="url(#crestGoldDeep)" strokeWidth="0.4" />
+    </svg>
+  );
+};
+
+export type RoyalWaxSealProps = RoyalLogoProps;
+
+export const RoyalWaxSeal: React.FC<RoyalWaxSealProps> = ({
+  className = 'w-16 h-16 sm:w-20 sm:h-20',
+  ...props
+}) => (
+  <RoyalLogo className={className} {...props} />
+);
+
 export const FiligreeDivider: React.FC<{ className?: string; width?: string }> = ({
   className = '',
   width = 'w-56',
@@ -239,83 +509,5 @@ export const TwinklingStars: React.FC = () => (
   </div>
 );
 
-export const RoyalWaxSeal: React.FC<{
-  onClick?: () => void;
-  className?: string;
-}> = ({ onClick, className = '' }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`group relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 select-none ${className}`}
-    title="Royal Seal of Kabir & Tara — Tap to RSVP"
-    aria-label="Royal Seal of Kabir & Tara — Tap to RSVP"
-  >
-    {/* Ambient breathing halo */}
-    <span className="absolute inset-0 rounded-full bg-[#F4D58D]/25 blur-md group-hover:bg-[#F4D58D]/45 transition-colors pointer-events-none" />
 
-    {/* 3D Gold-rimmed Wax Medallion */}
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full drop-shadow-[0_6px_18px_rgba(0,0,0,0.85)]"
-      aria-hidden="true"
-    >
-      <defs>
-        <radialGradient id="sealLacquer" cx="50%" cy="40%" r="55%">
-          <stop offset="0%" stopColor="#142B5C" />
-          <stop offset="65%" stopColor="#081432" />
-          <stop offset="100%" stopColor="#04091A" />
-        </radialGradient>
-        <linearGradient id="sealGoldRim" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#FFF1C4" />
-          <stop offset="35%" stopColor="#D9B166" />
-          <stop offset="70%" stopColor="#966C24" />
-          <stop offset="100%" stopColor="#F7DF9E" />
-        </linearGradient>
-      </defs>
-
-      {/* Scalloped wax edge */}
-      <circle cx="40" cy="40" r="38" fill="url(#sealGoldRim)" />
-      <circle cx="40" cy="40" r="35" fill="url(#sealLacquer)" stroke="url(#sealGoldRim)" strokeWidth="1.2" />
-
-      {/* Decorative Beaded Ring */}
-      <circle
-        cx="40"
-        cy="40"
-        r="31"
-        stroke="#E7C67C"
-        strokeWidth="0.8"
-        strokeDasharray="2.2 2.2"
-        fill="none"
-        opacity="0.8"
-      />
-
-      {/* Miniature Royal Crown at Top */}
-      <path
-        d="M33 28L35 32L40 26L45 32L47 28L46 35H34L33 28Z"
-        fill="url(#sealGoldRim)"
-        stroke="#FFF2CD"
-        strokeWidth="0.4"
-      />
-
-      {/* Monogram KT text */}
-      <text
-        x="40"
-        y="50"
-        textAnchor="middle"
-        fontFamily="'Alex Brush', cursive"
-        fontSize="17"
-        fontWeight="bold"
-        fill="url(#sealGoldRim)"
-        letterSpacing="0.05em"
-      >
-        K &amp; T
-      </text>
-
-      {/* Lower star flourish */}
-      <circle cx="40" cy="58" r="1.2" fill="#FFF1C4" />
-    </svg>
-  </button>
-);
 

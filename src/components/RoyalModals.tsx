@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, CheckCircle2, Clock, MapPin, Sparkles, Users, X } from 'lucide-react';
 import { CrownIcon, FiligreeDivider } from './RoyalOrnaments';
+import { WEDDING_CONFIG } from '../config/weddingConfig';
 
 export interface RsvpSubmission {
   name: string;
@@ -106,7 +107,7 @@ export const RsvpModal: React.FC<RsvpModalProps> = ({
             <FiligreeDivider width="w-40" className="my-4" />
             <p className="font-serif-royal text-base text-[#F7EBD0]/90 leading-relaxed max-w-[280px]">
               {attending === 'yes'
-                ? `Your RSVP for ${guests} ${guests === 1 ? 'guest' : 'guests'} has been recorded for Kabir & Tara's Engagement Ceremony on 20 November 2027.`
+                ? `Your RSVP for ${guests} ${guests === 1 ? 'guest' : 'guests'} has been recorded for ${WEDDING_CONFIG.groom} & ${WEDDING_CONFIG.bride}'s ${WEDDING_CONFIG.eventTitle} on 20 November 2027.`
                 : 'Thank you for letting us know. We will keep you in our thoughts during our celebration.'}
             </p>
             <button
@@ -219,7 +220,7 @@ export const RsvpModal: React.FC<RsvpModalProps> = ({
                 rows={2}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Share your warm wishes for Kabir & Tara..."
+                placeholder={`Share your warm wishes for ${WEDDING_CONFIG.groom} & ${WEDDING_CONFIG.bride}...`}
                 className="w-full px-3 py-2 bg-[#040C20]/80 border border-[#D9B166]/45 focus:border-[#F4D58D] focus:outline-none text-sm font-serif-royal text-[#FFF6E3] placeholder:text-[#98A6C7]/60 resize-none"
               />
             </div>
@@ -359,7 +360,7 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({ isOpen, onClose 
     {
       time: '8:00 PM',
       title: 'Engagement Ring Ceremony',
-      desc: 'The auspicious ring exchange and varmala ritual of Kabir & Tara.',
+      desc: `The auspicious ring exchange and varmala ritual of ${WEDDING_CONFIG.groom} & ${WEDDING_CONFIG.bride}.`,
     },
     {
       time: '9:00 PM',

@@ -55,9 +55,9 @@ export const RoyalEntryPage: React.FC<RoyalEntryPageProps> = ({
     updateSize();
     window.addEventListener('resize', updateSize);
 
-    // Ultra-smooth mesh and majestic unhurried timing
-    const FOLDS = 24;
-    const SEGS = 12;
+    // Ultra-smooth mesh optimized for high framerate performance
+    const FOLDS = 14;
+    const SEGS = 8;
     const DURATION = 2300;
 
     const render = (now: number) => {
@@ -204,12 +204,14 @@ export const RoyalEntryPage: React.FC<RoyalEntryPageProps> = ({
         }
         ctx.lineTo(leadPoints[SEGS].x, leadPoints[SEGS].y);
 
-        ctx.lineWidth = 3.5;
-        ctx.strokeStyle = '#F4D58D';
-        ctx.shadowColor = 'rgba(244, 213, 141, 0.6)';
-        ctx.shadowBlur = 10;
+        // 24K Gold brocade ribbon (clean GPU-accelerated double stroke)
+        ctx.lineWidth = 4.5;
+        ctx.strokeStyle = 'rgba(244, 213, 141, 0.4)';
         ctx.stroke();
-        ctx.shadowBlur = 0;
+
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = '#F4D58D';
+        ctx.stroke();
       };
 
       // Draw Left Curtain
