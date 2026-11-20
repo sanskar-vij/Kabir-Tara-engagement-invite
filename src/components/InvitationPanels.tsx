@@ -30,32 +30,32 @@ export interface PanelProps {
   };
 }
 
-// 5 Lamp Pairs: Glow centered IN THE LAMP with a little light spilling OUT
+// 5 Lamp Pairs: Glow centered strictly INSIDE the lamp glass chamber (NOT above the roof)
 const WALKWAY_LAMPS = [
   {
     step: 1,
-    left: { bottom: '18.2%', left: '17.6%', flameW: 16, flameH: 22, haloSize: 52 },
-    right: { bottom: '18.2%', right: '16.1%', flameW: 16, flameH: 22, haloSize: 52 },
+    left: { bottom: '19.8%', left: '17.6%', flameW: 10, flameH: 14, haloW: 28, haloH: 22 },
+    right: { bottom: '19.8%', right: '16.2%', flameW: 10, flameH: 14, haloW: 28, haloH: 22 },
   },
   {
     step: 2,
-    left: { bottom: '22.0%', left: '22.2%', flameW: 14, flameH: 19, haloSize: 44 },
-    right: { bottom: '22.0%', right: '20.5%', flameW: 14, flameH: 19, haloSize: 44 },
+    left: { bottom: '22.2%', left: '19.7%', flameW: 8, flameH: 11, haloW: 22, haloH: 18 },
+    right: { bottom: '22.2%', right: '18.6%', flameW: 8, flameH: 11, haloW: 22, haloH: 18 },
   },
   {
     step: 3,
-    left: { bottom: '25.8%', left: '32.1%', flameW: 12, flameH: 16, haloSize: 36 },
-    right: { bottom: '25.8%', right: '28.4%', flameW: 12, flameH: 16, haloSize: 36 },
+    left: { bottom: '25.8%', left: '31.5%', flameW: 7, flameH: 9, haloW: 18, haloH: 15 },
+    right: { bottom: '25.8%', right: '27.5%', flameW: 7, flameH: 9, haloW: 18, haloH: 15 },
   },
   {
     step: 4,
-    left: { bottom: '29.7%', left: '35.0%', flameW: 10, flameH: 13, haloSize: 28 },
-    right: { bottom: '29.7%', right: '33.4%', flameW: 10, flameH: 13, haloSize: 28 },
+    left: { bottom: '28.0%', left: '35.2%', flameW: 5, flameH: 7, haloW: 14, haloH: 12 },
+    right: { bottom: '28.0%', right: '31.9%', flameW: 5, flameH: 7, haloW: 14, haloH: 12 },
   },
   {
     step: 5,
-    left: { bottom: '31.6%', left: '43.9%', flameW: 8, flameH: 11, haloSize: 22 },
-    right: { bottom: '31.6%', right: '42.3%', flameW: 8, flameH: 11, haloSize: 22 },
+    left: { bottom: '29.8%', left: '42.7%', flameW: 4, flameH: 5, haloW: 10, haloH: 9 },
+    right: { bottom: '29.8%', right: '40.9%', flameW: 4, flameH: 5, haloW: 10, haloH: 9 },
   },
 ];
 
@@ -163,110 +163,62 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
             <React.Fragment key={idx}>
               {/* --- LEFT LAMP --- */}
               <div
-                className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+                className="absolute pointer-events-none w-0 h-0 flex items-center justify-center"
                 style={{ bottom: pair.left.bottom, left: pair.left.left }}
               >
-                {/* Wide Warm Ambient Light Aura */}
+                {/* Glass Chamber Amber Warmth (strictly contained inside lantern glass) */}
                 <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo pointer-events-none"
                   style={{
-                    width: `${pair.left.haloSize}px`,
-                    height: `${pair.left.haloSize}px`,
+                    width: `${pair.left.haloW}px`,
+                    height: `${pair.left.haloH}px`,
                     background:
-                      'radial-gradient(circle, rgba(255, 220, 110, 0.75) 0%, rgba(245, 150, 30, 0.35) 45%, rgba(210, 90, 10, 0.12) 70%, transparent 85%)',
+                      'radial-gradient(ellipse at center, rgba(255, 215, 90, 0.75) 0%, rgba(245, 140, 20, 0.35) 55%, transparent 85%)',
                     mixBlendMode: 'screen',
                   }}
                 />
-                {/* Concentrated Lantern Glass Chamber Glow */}
+                {/* Flame Core inside lamp */}
                 <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
-                  style={{
-                    width: `${Math.round(pair.left.haloSize * 0.55)}px`,
-                    height: `${Math.round(pair.left.haloSize * 0.55)}px`,
-                    background:
-                      'radial-gradient(circle, rgba(255, 245, 180, 0.95) 0%, rgba(255, 180, 50, 0.6) 50%, transparent 80%)',
-                    mixBlendMode: 'screen',
-                  }}
-                />
-                {/* Vivid Teardrop Flame Core */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame pointer-events-none"
                   style={{
                     width: `${pair.left.flameW}px`,
                     height: `${pair.left.flameH}px`,
                     background:
-                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF4B0 35%, #FFA000 70%, #E65100 100%)',
+                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF2A8 35%, #FF9500 70%, #E65100 100%)',
                     boxShadow:
-                      '0 0 10px #FFE082, 0 0 20px #FF9100, 0 0 35px rgba(255, 120, 0, 0.5)',
+                      '0 0 6px #FFE082, 0 0 12px rgba(255, 145, 0, 0.8)',
                   }}
                 />
-                {/* Marble Walkway Ground Reflection for Front Lamps */}
-                {idx <= 1 && (
-                  <div
-                    className="absolute -translate-x-1/2 top-4 rounded-full"
-                    style={{
-                      width: `${pair.left.flameW * 2.8}px`,
-                      height: `${pair.left.flameH * 0.65}px`,
-                      background:
-                        'radial-gradient(ellipse, rgba(255, 200, 80, 0.45) 0%, rgba(240, 130, 20, 0.18) 60%, transparent 80%)',
-                      mixBlendMode: 'screen',
-                    }}
-                  />
-                )}
               </div>
 
               {/* --- RIGHT LAMP --- */}
               <div
-                className="absolute pointer-events-none translate-x-1/2 -translate-y-1/2"
+                className="absolute pointer-events-none w-0 h-0 flex items-center justify-center"
                 style={{ bottom: pair.right.bottom, right: pair.right.right }}
               >
-                {/* Wide Warm Ambient Light Aura */}
+                {/* Glass Chamber Amber Warmth (strictly contained inside lantern glass) */}
                 <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo pointer-events-none"
                   style={{
-                    width: `${pair.right.haloSize}px`,
-                    height: `${pair.right.haloSize}px`,
+                    width: `${pair.right.haloW}px`,
+                    height: `${pair.right.haloH}px`,
                     background:
-                      'radial-gradient(circle, rgba(255, 220, 110, 0.75) 0%, rgba(245, 150, 30, 0.35) 45%, rgba(210, 90, 10, 0.12) 70%, transparent 85%)',
+                      'radial-gradient(ellipse at center, rgba(255, 215, 90, 0.75) 0%, rgba(245, 140, 20, 0.35) 55%, transparent 85%)',
                     mixBlendMode: 'screen',
                   }}
                 />
-                {/* Concentrated Lantern Glass Chamber Glow */}
+                {/* Flame Core inside lamp */}
                 <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
-                  style={{
-                    width: `${Math.round(pair.right.haloSize * 0.55)}px`,
-                    height: `${Math.round(pair.right.haloSize * 0.55)}px`,
-                    background:
-                      'radial-gradient(circle, rgba(255, 245, 180, 0.95) 0%, rgba(255, 180, 50, 0.6) 50%, transparent 80%)',
-                    mixBlendMode: 'screen',
-                  }}
-                />
-                {/* Vivid Teardrop Flame Core */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame pointer-events-none"
                   style={{
                     width: `${pair.right.flameW}px`,
                     height: `${pair.right.flameH}px`,
                     background:
-                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF4B0 35%, #FFA000 70%, #E65100 100%)',
+                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF2A8 35%, #FF9500 70%, #E65100 100%)',
                     boxShadow:
-                      '0 0 10px #FFE082, 0 0 20px #FF9100, 0 0 35px rgba(255, 120, 0, 0.5)',
+                      '0 0 6px #FFE082, 0 0 12px rgba(255, 145, 0, 0.8)',
                   }}
                 />
-                {/* Marble Walkway Ground Reflection for Front Lamps */}
-                {idx <= 1 && (
-                  <div
-                    className="absolute -translate-x-1/2 top-4 rounded-full"
-                    style={{
-                      width: `${pair.right.flameW * 2.8}px`,
-                      height: `${pair.right.flameH * 0.65}px`,
-                      background:
-                        'radial-gradient(ellipse, rgba(255, 200, 80, 0.45) 0%, rgba(240, 130, 20, 0.18) 60%, transparent 80%)',
-                      mixBlendMode: 'screen',
-                    }}
-                  />
-                )}
               </div>
             </React.Fragment>
           );
@@ -304,7 +256,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
           <>
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[18.2%] left-[17.6%] -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[19.8%] left-[17.6%] -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
               <span className="w-8 h-8 rounded-full border-2 border-[#F4D58D]/85 animate-ping pointer-events-none" />
@@ -313,7 +265,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[18.2%] right-[16.1%] translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[19.8%] right-[16.2%] translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
               <span className="w-8 h-8 rounded-full border-2 border-[#F4D58D]/85 animate-ping pointer-events-none" />
