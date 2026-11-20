@@ -99,7 +99,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
       >
         {/* Layer 1: Night Sky & Lake Reflection Background */}
         <img
-          src="/assets/4.png"
+          src="/assets/4.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
@@ -107,7 +107,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Layer 2: Illuminated Grand Palace Horizon with Warm Ambient Aura */}
         <img
-          src="/assets/5.png"
+          src="/assets/5.webp"
           alt="Illuminated royal palace"
           className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-all duration-1000 ${
             litStep >= 6
@@ -120,7 +120,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Layer 3a: Left Palm Tree (Static, crystal clean cutout) */}
         <img
-          src="/assets/tree-left.png"
+          src="/assets/tree-left.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
@@ -128,7 +128,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Layer 3b: Right Palm Tree (Static, crystal clean cutout) */}
         <img
-          src="/assets/tree-right.png"
+          src="/assets/tree-right.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
@@ -136,7 +136,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Layer 4: Walkway Blooming Shrubs & Rose Hedges */}
         <img
-          src="/assets/walkway-shrubs.png"
+          src="/assets/walkway-shrubs.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
@@ -144,7 +144,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Layer 5: Carved Golden Mughal Archway & Reflective Marble Walkway */}
         <img
-          src="/assets/3.png"
+          src="/assets/3.webp"
           alt="Carved golden Mughal archway and marble walkway"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
@@ -239,7 +239,7 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
 
         {/* Walkway Lantern Image Layer: Unlit before click, richly illuminated when lit */}
         <img
-          src="/assets/1.png"
+          src="/assets/1.webp"
           alt="Lanterns along the palace walkway"
           onClick={hasTriggered ? undefined : handleLightSequentialLamps}
           className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ${
@@ -273,10 +273,11 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
               <span className="absolute w-3.5 h-3.5 rounded-full bg-[#F4D58D]/70 animate-pulse pointer-events-none" />
             </div>
 
-            {/* High-Contrast Interactive Cue Button */}
+            {/* High-Contrast Interactive Cue Button (Lifted 40px above) */}
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[3%] left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#05112B]/95 border border-[#F4D58D]/85 text-[#FFF5DC] font-cinzel text-[10px] sm:text-[11px] tracking-[0.18em] uppercase font-semibold whitespace-nowrap cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-[0_4px_22px_rgba(244,213,141,0.45),0_0_15px_rgba(217,177,102,0.3)] animate-pulse"
+              style={{ bottom: 'calc(3% + 40px)' }}
+              className="absolute left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#05112B]/95 border border-[#F4D58D]/85 text-[#FFF5DC] font-cinzel text-[10px] sm:text-[11px] tracking-[0.18em] uppercase font-semibold whitespace-nowrap cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-[0_4px_22px_rgba(244,213,141,0.45),0_0_15px_rgba(217,177,102,0.3)] animate-pulse"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#F4D58D]" />
               <span>Tap Lamp to Light Walkway</span>
@@ -355,7 +356,7 @@ export const DetailsPanel: React.FC<PanelProps> = ({
       >
         {/* Layer 1: Royal Pavilion Courtyard with Floral Urns & Twilight Horizon */}
         <img
-          src="/assets/6.png"
+          src="/assets/6.webp"
           alt="Royal Mughal archway with white floral urns and marble courtyard"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
@@ -371,20 +372,20 @@ export const DetailsPanel: React.FC<PanelProps> = ({
 
         {/* Layer 2: Triple Crystal Chandeliers (Each animating independently with distinct rhythm & phase) */}
         <img
-          src="/assets/chandelier-left.png"
+          src="/assets/chandelier-left.webp"
           alt=""
           aria-hidden="true"
           style={{ transformOrigin: '19.0% 0%' }}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-left"
         />
         <img
-          src="/assets/chandelier-center.png"
+          src="/assets/chandelier-center.webp"
           alt="Crystal chandeliers"
           style={{ transformOrigin: '50% 0%' }}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-chandelier-center"
         />
         <img
-          src="/assets/chandelier-right.png"
+          src="/assets/chandelier-right.webp"
           alt=""
           aria-hidden="true"
           style={{ transformOrigin: '81.0% 0%' }}
@@ -482,14 +483,14 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp, couple }) => {
       >
         {/* Layer 1: Waterfront Palace & Starry Night Sky */}
         <img
-          src="/assets/9.png"
+          src="/assets/9.webp"
           alt="Starry night sky over illuminated lake palace"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
 
         {/* Layer 2: White Blossoms & Golden Foliage Corners with gentle breeze */}
         <img
-          src="/assets/10.png"
+          src="/assets/10.webp"
           alt="Golden leaves and white blossoms floral frame"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none animate-floral-breeze"
         />
@@ -505,7 +506,7 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp, couple }) => {
 
         {/* Layer 3: Hanging Gold Lantern Top-Left with Gentle Sway */}
         <img
-          src="/assets/12.png"
+          src="/assets/12.webp"
           alt=""
           aria-hidden="true"
           style={{ transformOrigin: '8.7% 0%' }}
@@ -524,7 +525,7 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp, couple }) => {
 
         {/* Layer 4: Hanging Gold Lantern Top-Right with Gentle Sway */}
         <img
-          src="/assets/8.png"
+          src="/assets/8.webp"
           alt=""
           aria-hidden="true"
           style={{ transformOrigin: '92.6% 0%' }}
@@ -543,7 +544,7 @@ export const RsvpPanel: React.FC<PanelProps> = ({ onOpenRsvp, couple }) => {
 
         {/* Layer 5: Standing Filigree Floor Lantern Bottom-Right */}
         <img
-          src="/assets/11.png"
+          src="/assets/11.webp"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
