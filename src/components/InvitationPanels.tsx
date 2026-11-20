@@ -34,28 +34,28 @@ export interface PanelProps {
 const WALKWAY_LAMPS = [
   {
     step: 1,
-    left: { bottom: '16.9%', left: '16.4%', flameW: 16, flameH: 22, haloSize: 38 },
-    right: { bottom: '16.9%', right: '15.6%', flameW: 16, flameH: 22, haloSize: 38 },
+    left: { bottom: '18.2%', left: '17.6%', flameW: 16, flameH: 22, haloSize: 52 },
+    right: { bottom: '18.2%', right: '16.1%', flameW: 16, flameH: 22, haloSize: 52 },
   },
   {
     step: 2,
-    left: { bottom: '20.2%', left: '19.0%', flameW: 14, flameH: 19, haloSize: 32 },
-    right: { bottom: '20.0%', right: '18.5%', flameW: 14, flameH: 19, haloSize: 32 },
+    left: { bottom: '22.0%', left: '22.2%', flameW: 14, flameH: 19, haloSize: 44 },
+    right: { bottom: '22.0%', right: '20.5%', flameW: 14, flameH: 19, haloSize: 44 },
   },
   {
     step: 3,
-    left: { bottom: '24.9%', left: '27.9%', flameW: 12, flameH: 16, haloSize: 26 },
-    right: { bottom: '25.2%', right: '25.5%', flameW: 12, flameH: 16, haloSize: 26 },
+    left: { bottom: '25.8%', left: '32.1%', flameW: 12, flameH: 16, haloSize: 36 },
+    right: { bottom: '25.8%', right: '28.4%', flameW: 12, flameH: 16, haloSize: 36 },
   },
   {
     step: 4,
-    left: { bottom: '27.8%', left: '35.3%', flameW: 10, flameH: 13, haloSize: 22 },
-    right: { bottom: '27.4%', right: '31.3%', flameW: 10, flameH: 13, haloSize: 22 },
+    left: { bottom: '29.7%', left: '35.0%', flameW: 10, flameH: 13, haloSize: 28 },
+    right: { bottom: '29.7%', right: '33.4%', flameW: 10, flameH: 13, haloSize: 28 },
   },
   {
     step: 5,
-    left: { bottom: '29.8%', left: '41.2%', flameW: 8, flameH: 11, haloSize: 18 },
-    right: { bottom: '29.8%', right: '39.5%', flameW: 8, flameH: 11, haloSize: 18 },
+    left: { bottom: '31.6%', left: '43.9%', flameW: 8, flameH: 11, haloSize: 22 },
+    right: { bottom: '31.6%', right: '42.3%', flameW: 8, flameH: 11, haloSize: 22 },
   },
 ];
 
@@ -153,74 +153,121 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
         {/* SEQUENTIAL WALKWAY LAMPS: GLOW IN THE LAMP + LITTLE LIGHT OUT             */}
         {/* ========================================================================= */}
 
-        {/* 7 Pairs of Walkway Lanterns */}
+        {/* 5 Pairs of Walkway Lanterns with Realistic Optical Illumination */}
         {WALKWAY_LAMPS.map((pair, idx) => {
           const isLit = litStep >= pair.step;
-          const isJustLit = litStep === pair.step;
 
           if (!isLit) return null; // ZERO LIGHT BEFORE CLICK!
 
           return (
             <React.Fragment key={idx}>
               {/* --- LEFT LAMP --- */}
-              {/* Little soft ambient light radiating slightly out */}
               <div
-                className="absolute rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-opacity duration-600 animate-lamp-halo"
-                style={{
-                  width: `${pair.left.haloSize}px`,
-                  height: `${pair.left.haloSize}px`,
-                  bottom: pair.left.bottom,
-                  left: pair.left.left,
-                  background:
-                    'radial-gradient(circle, rgba(255, 215, 100, 0.42) 0%, rgba(245, 160, 40, 0.14) 45%, transparent 72%)',
-                }}
-              />
-              {/* Glowing flame core/globe INSIDE the lamp */}
-              <div
-                className={`absolute rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-all duration-300 animate-candle-flame ${
-                  isJustLit ? 'scale-130' : 'scale-100'
-                }`}
-                style={{
-                  width: `${pair.left.flameW}px`,
-                  height: `${pair.left.flameH}px`,
-                  bottom: pair.left.bottom,
-                  left: pair.left.left,
-                  background:
-                    'radial-gradient(ellipse at 50% 60%, #FFFFFF 0%, #FFF2A8 28%, #F59E0B 72%, rgba(217, 119, 6, 0.25) 95%)',
-                  boxShadow:
-                    '0 0 10px rgba(255, 225, 110, 0.95), 0 0 20px rgba(245, 160, 40, 0.6)',
-                }}
-              />
+                className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+                style={{ bottom: pair.left.bottom, left: pair.left.left }}
+              >
+                {/* Wide Warm Ambient Light Aura */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo"
+                  style={{
+                    width: `${pair.left.haloSize}px`,
+                    height: `${pair.left.haloSize}px`,
+                    background:
+                      'radial-gradient(circle, rgba(255, 220, 110, 0.75) 0%, rgba(245, 150, 30, 0.35) 45%, rgba(210, 90, 10, 0.12) 70%, transparent 85%)',
+                    mixBlendMode: 'screen',
+                  }}
+                />
+                {/* Concentrated Lantern Glass Chamber Glow */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+                  style={{
+                    width: `${Math.round(pair.left.haloSize * 0.55)}px`,
+                    height: `${Math.round(pair.left.haloSize * 0.55)}px`,
+                    background:
+                      'radial-gradient(circle, rgba(255, 245, 180, 0.95) 0%, rgba(255, 180, 50, 0.6) 50%, transparent 80%)',
+                    mixBlendMode: 'screen',
+                  }}
+                />
+                {/* Vivid Teardrop Flame Core */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame"
+                  style={{
+                    width: `${pair.left.flameW}px`,
+                    height: `${pair.left.flameH}px`,
+                    background:
+                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF4B0 35%, #FFA000 70%, #E65100 100%)',
+                    boxShadow:
+                      '0 0 10px #FFE082, 0 0 20px #FF9100, 0 0 35px rgba(255, 120, 0, 0.5)',
+                  }}
+                />
+                {/* Marble Walkway Ground Reflection for Front Lamps */}
+                {idx <= 1 && (
+                  <div
+                    className="absolute -translate-x-1/2 top-4 rounded-full"
+                    style={{
+                      width: `${pair.left.flameW * 2.8}px`,
+                      height: `${pair.left.flameH * 0.65}px`,
+                      background:
+                        'radial-gradient(ellipse, rgba(255, 200, 80, 0.45) 0%, rgba(240, 130, 20, 0.18) 60%, transparent 80%)',
+                      mixBlendMode: 'screen',
+                    }}
+                  />
+                )}
+              </div>
 
               {/* --- RIGHT LAMP --- */}
-              {/* Little soft ambient light radiating slightly out */}
               <div
-                className="absolute rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-opacity duration-600 animate-lamp-halo"
-                style={{
-                  width: `${pair.right.haloSize}px`,
-                  height: `${pair.right.haloSize}px`,
-                  bottom: pair.right.bottom,
-                  right: pair.right.right,
-                  background:
-                    'radial-gradient(circle, rgba(255, 215, 100, 0.42) 0%, rgba(245, 160, 40, 0.14) 45%, transparent 72%)',
-                }}
-              />
-              {/* Glowing flame core/globe INSIDE the lamp */}
-              <div
-                className={`absolute rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-all duration-300 animate-candle-flame ${
-                  isJustLit ? 'scale-130' : 'scale-100'
-                }`}
-                style={{
-                  width: `${pair.right.flameW}px`,
-                  height: `${pair.right.flameH}px`,
-                  bottom: pair.right.bottom,
-                  right: pair.right.right,
-                  background:
-                    'radial-gradient(ellipse at 50% 60%, #FFFFFF 0%, #FFF2A8 28%, #F59E0B 72%, rgba(217, 119, 6, 0.25) 95%)',
-                  boxShadow:
-                    '0 0 10px rgba(255, 225, 110, 0.95), 0 0 20px rgba(245, 160, 40, 0.6)',
-                }}
-              />
+                className="absolute pointer-events-none translate-x-1/2 -translate-y-1/2"
+                style={{ bottom: pair.right.bottom, right: pair.right.right }}
+              >
+                {/* Wide Warm Ambient Light Aura */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-lamp-halo"
+                  style={{
+                    width: `${pair.right.haloSize}px`,
+                    height: `${pair.right.haloSize}px`,
+                    background:
+                      'radial-gradient(circle, rgba(255, 220, 110, 0.75) 0%, rgba(245, 150, 30, 0.35) 45%, rgba(210, 90, 10, 0.12) 70%, transparent 85%)',
+                    mixBlendMode: 'screen',
+                  }}
+                />
+                {/* Concentrated Lantern Glass Chamber Glow */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+                  style={{
+                    width: `${Math.round(pair.right.haloSize * 0.55)}px`,
+                    height: `${Math.round(pair.right.haloSize * 0.55)}px`,
+                    background:
+                      'radial-gradient(circle, rgba(255, 245, 180, 0.95) 0%, rgba(255, 180, 50, 0.6) 50%, transparent 80%)',
+                    mixBlendMode: 'screen',
+                  }}
+                />
+                {/* Vivid Teardrop Flame Core */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-[50%_50%_35%_35%/60%_60%_40%_40%] animate-candle-flame"
+                  style={{
+                    width: `${pair.right.flameW}px`,
+                    height: `${pair.right.flameH}px`,
+                    background:
+                      'radial-gradient(ellipse at 50% 65%, #FFFFFF 0%, #FFF4B0 35%, #FFA000 70%, #E65100 100%)',
+                    boxShadow:
+                      '0 0 10px #FFE082, 0 0 20px #FF9100, 0 0 35px rgba(255, 120, 0, 0.5)',
+                  }}
+                />
+                {/* Marble Walkway Ground Reflection for Front Lamps */}
+                {idx <= 1 && (
+                  <div
+                    className="absolute -translate-x-1/2 top-4 rounded-full"
+                    style={{
+                      width: `${pair.right.flameW * 2.8}px`,
+                      height: `${pair.right.flameH * 0.65}px`,
+                      background:
+                        'radial-gradient(ellipse, rgba(255, 200, 80, 0.45) 0%, rgba(240, 130, 20, 0.18) 60%, transparent 80%)',
+                      mixBlendMode: 'screen',
+                    }}
+                  />
+                )}
+              </div>
             </React.Fragment>
           );
         })}
@@ -257,20 +304,20 @@ export const CoverPanel: React.FC<PanelProps> = ({ onNextSection, couple }) => {
           <>
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[14%] left-[13.5%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[18.2%] left-[17.6%] -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
-              <span className="w-7 h-7 rounded-full border-2 border-[#F4D58D]/80 animate-ping pointer-events-none" />
-              <span className="absolute w-3.5 h-3.5 rounded-full bg-[#F4D58D]/70 animate-pulse pointer-events-none" />
+              <span className="w-8 h-8 rounded-full border-2 border-[#F4D58D]/85 animate-ping pointer-events-none" />
+              <span className="absolute w-4 h-4 rounded-full bg-gradient-to-r from-[#D9B166] to-[#FFF1C4] animate-pulse pointer-events-none shadow-[0_0_12px_rgba(244,213,141,0.8)]" />
             </div>
 
             <div
               onClick={handleLightSequentialLamps}
-              className="absolute bottom-[14%] right-[13%] w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
+              className="absolute bottom-[18.2%] right-[16.1%] translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full cursor-pointer z-30 flex items-center justify-center pointer-events-auto"
               title="Tap to light the royal lamps"
             >
-              <span className="w-7 h-7 rounded-full border-2 border-[#F4D58D]/80 animate-ping pointer-events-none" />
-              <span className="absolute w-3.5 h-3.5 rounded-full bg-[#F4D58D]/70 animate-pulse pointer-events-none" />
+              <span className="w-8 h-8 rounded-full border-2 border-[#F4D58D]/85 animate-ping pointer-events-none" />
+              <span className="absolute w-4 h-4 rounded-full bg-gradient-to-r from-[#D9B166] to-[#FFF1C4] animate-pulse pointer-events-none shadow-[0_0_12px_rgba(244,213,141,0.8)]" />
             </div>
 
             {/* High-Contrast Interactive Cue Button (Lifted 40px above) */}

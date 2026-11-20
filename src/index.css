@@ -171,31 +171,31 @@
 /* Realistic Lamp Candlelight & Physics Animations (GPU Composited) */
 @keyframes candleFlickerRealistic {
   0%, 100% {
-    opacity: 0.92;
+    opacity: 0.94;
     transform: translate3d(-50%, -50%, 0) scale(1);
   }
-  24% {
+  25% {
     opacity: 1;
-    transform: translate3d(-50%, -50%, 0) scale(1.08);
+    transform: translate3d(-50%, -52%, 0) scale(1.07);
   }
   50% {
-    opacity: 0.88;
-    transform: translate3d(-50%, -50%, 0) scale(0.96);
+    opacity: 0.9;
+    transform: translate3d(-50%, -49%, 0) scale(0.96);
   }
   75% {
     opacity: 1;
-    transform: translate3d(-50%, -50%, 0) scale(1.05);
+    transform: translate3d(-50%, -51%, 0) scale(1.04);
   }
 }
 
 @keyframes lampGlowAura {
   0%, 100% {
-    opacity: 0.45;
-    transform: translate3d(-50%, -50%, 0) scale(0.94);
+    opacity: 0.72;
+    transform: translate3d(-50%, -50%, 0) scale(0.95);
   }
   50% {
-    opacity: 0.82;
-    transform: translate3d(-50%, -50%, 0) scale(1.06);
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1.08);
   }
 }
 
